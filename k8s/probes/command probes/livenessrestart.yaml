@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-restart
+spec:
+  restartPolicy: Always
+  containers:
+    - name: ubuntucont
+      image: ubuntu:latest
+      command:
+        - /bin/sh
+        - -ec
+        - touch /tmp/qt; sleep 30; rm /tmp/qt; sleep 600 
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/qt
+        initialDelaySeconds: 5
+        periodSeconds: 5

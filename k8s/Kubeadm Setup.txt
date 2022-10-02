@@ -1,0 +1,33 @@
+Installing Kubeadm
+------------------
+------------------
+Create 2 or more nodes with ubuntu t3.small (bcoz we need 2cpus and 2gb and more of ram)
+Step-1: Installing container runtime(docker)
+sudo apt-get install -y docker.io        
+Now execute the command---
+"""
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart docker
+$ sudo systemctl enable docker
+$ sudo systemctl status docker
+
+"""
+Now install kubeadm, kubectl and kubelet from kubernetes guide----
+For Control Plane: become root user and apply the command """kubeadm init"""
+ And become a regular user and execute the following
+mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+Again setup network in the control plane only----
+ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+After that check for it with execute the command
+""" kubectl get nodes"""
+--------------
+Now login in node 
+become a root user and execute the command
+kubeadm join 172.31.33.51:6443 --token <somtoken>
+And login to master node and execute the command 
+"""kubectl get nodes"""
+
+
+

@@ -1,0 +1,4 @@
+---
+tomcat_download_source: "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.zip"
+tomcat_download_location: "/tmp/apache-tomcat-8.5.79.zip"
+tomcat_install_path: "/opt/tomcat"

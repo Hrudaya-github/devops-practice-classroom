@@ -1,0 +1,10 @@
+[rhel]
+172.31.42.15
+
+[ubuntu]
+localhost
+172.31.43.186
+
+[webserver]
+172.31.43.186 package_name= apache2 php_packages= '["php","libapache2-mod-php","php-mysql","php-cli"]'
+172.31.42.15 package_name= httpd php_packages= '["php","php-fpm"]'

@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: admin-service-deployment
+  labels:
+    app: admin-service
+spec:
+  minReadySeconds: 20
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: admin-service
+      environment: production
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: admin-service
+        environment: production
+    spec:
+      containers:
+        - name: httpcont
+          image: httpd
+          ports:
+            - containerPort: 80
+              protocol: TCP
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: admin-service 
+    

@@ -1,0 +1,68 @@
+---
+- name: install tomcat on ubuntu
+  hosts: appserver
+  become: yes
+  vars:
+    username: tomcat
+    java_package: openjdk-8-jdk
+    unzip_package: unzip
+  vars_files:
+    - vars/tomcat_ubuntu_vars.yaml
+  tasks: 
+    - name: installing java
+      apt:
+       name: "{{ java_package }}"
+       update_cache: yes
+       state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: add tomcat group
+      group:
+        name: "{{ username }}"
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: add the tomcat user
+      user:
+       name: "{{ username }}"
+       shell: /bin/false
+       home: "{{ tomcat_install_path }}"
+       state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: Ensure unzip package is present
+      package:
+        name: "{{ unzip_package }}"
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: download tomcat
+      get_url:
+       url: "{{ tomcat_download_source }}"
+       dest: "{{ tomcat_download_location }}"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: archive tomcat 
+      unarchive:
+       src: "{{ tomcat_download_location }}"
+       dest: "{{ tomcat_install_path }}"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: create link file 
+      file: 
+       src: /opt/tomcat/apache-tomcat-8.5.79
+       dest: /opt/tomcat/latest
+       owner: "{{ username }}"
+       group: "{{ username }}"
+       state: link
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: change ownership
+      file: 
+       path: "{{ tomcat_install_path }}"
+       owner: "{{ username }}"
+       group: "{{ username }}"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: give permission
+      file:
+       path: /opt/tomcat/latest/bin/false.sh
+       owner: "{{ username }}"
+       group: "{{ username }}"
+       mode: 777
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    
+

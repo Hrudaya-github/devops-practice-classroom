@@ -1,0 +1,23 @@
+---
+- name: install lamp stack
+  become: yes
+  hosts: webserver
+  tasks:
+    - name: install apache
+      package:
+        name: "{{ package_name }}"
+        state: present
+    - name: install php packages
+      package:
+        name: "{{ php_packages}}"
+        state: present
+    - name: copy php file
+      copy:
+        src: info.php
+        dest: /var/www/html/info.php
+    - name: start and enable http service
+      service:
+        name: "{{ package_name }}"
+        enabled: yes
+        state: started
+    
