@@ -1,0 +1,11 @@
+PUT /library/_doc/3
+{
+    "title": "Half Girlfriend: Movie Tie-In Edition",
+    "ISBN-13": "9780593439357",
+    "Authors": [
+        "Mandanna", "Sangu"
+    ],
+    "Binding": "Paperback",
+    "List Price": "$0.13",
+    "Published": "Berkley 2022"
+}

@@ -1,0 +1,13 @@
+PUT /library/_doc/1
+{
+    "title": "Mind Hacking, Unfck Yourself, Rich Dad Poor Dad, Smarter Faster Better 4 Books Collection Set",
+    "ISBN-10": "1612680178",
+    "Authors": [
+        "Sir John Hargrave", "Gary John Bishop", "Charles Duhigg",  "Robert T. Kiyosaki"
+    ],
+    "Edition": 2,
+    "Binding": "Paperback",
+    "List Price": "0.17$",
+    "Published": "January 2020"
+
+}

@@ -1,0 +1,11 @@
+PUT /library/_doc/2
+{
+    "title": "Half Girlfriend: Movie Tie-In Edition",
+    "ISBN-13": "9788129124029",
+    "Authors": [
+        "Bhagat", "Chetan"
+    ],
+    "Binding": "Paperback",
+    "List Price": "$0.13",
+    "Published": "Rupa Publications India"
+}
