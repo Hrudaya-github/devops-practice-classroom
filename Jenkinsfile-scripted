@@ -10,3 +10,12 @@ node('banking'){
         archiveArtifacts 'gameoflife-web/target/*.war'   
     }
 }
+
+
+        junit 'helloworld-web/target/surefire-reports/*.xml'
+        archiveArtifacts 'helloworld-web/target/*.war'
+
+        
+        
+        
+        
