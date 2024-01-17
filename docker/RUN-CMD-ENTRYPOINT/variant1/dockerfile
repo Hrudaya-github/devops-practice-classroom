@@ -1,0 +1,11 @@
+# create a apache container using centos as a base image
+FROM centos:7
+# using multiple label
+LABEL author=hrt
+LABEL maintainer=hrt@gmail.com
+# install apache on centos
+RUN yum update -y && yum install httpd -y
+# add the exectable
+CMD [ "echo", "hello-world" ]
+
+

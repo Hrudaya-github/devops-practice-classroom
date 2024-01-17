@@ -1,0 +1,12 @@
+# base image is openjdk
+FROM openjdk:8
+LABEL author="ranjan"
+LABEL maintainer="hrt@gmail.com"
+ENV applicationpath="spring-petclinic.jar"
+ARG downloadlocation
+# Downloading the image from the url
+ADD ${downloadlocation} ${applicationpath}
+# command to start the application
+CMD [ "java", "-jar", "${applicationpath}" ]
+# spring pet clinic runs on port 8080
+EXPOSE 8080

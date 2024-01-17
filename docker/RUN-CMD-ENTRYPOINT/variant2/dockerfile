@@ -1,0 +1,6 @@
+FROM centos:7
+LABEL author=hrt
+LABEL maintainer=hrt@gmail.com
+RUN yum update -y && yum install httpd -y
+ENTRYPOINT [ "echo"]
+CMD [ "hello-world" ]
