@@ -6,13 +6,28 @@ Step-1: Installing container runtime(docker)
 sudo apt-get install -y docker.io        
 Now execute the command---
 """
-$ sudo systemctl daemon-reload
-$ sudo systemctl restart docker
-$ sudo systemctl enable docker
-$ sudo systemctl status docker
+ sudo systemctl daemon-reload
+ sudo systemctl restart docker
+ sudo systemctl enable docker
+ sudo systemctl status docker
 
 """
 Now install kubeadm, kubectl and kubelet from kubernetes guide----
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+Download the Google Cloud public signing key:
+sudo curl -fsSl https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+
+
 For Control Plane: become root user and apply the command """kubeadm init"""
  And become a regular user and execute the following only in master node
   mkdir -p $HOME/.kube
@@ -28,13 +43,17 @@ After that check for it with execute the command
 --------------
 Now login in node 
 become a root user and execute the command
-kubeadm join 172.31.33.51:6443 --token <somtoken>
+kubeadm join 172.31.33.51:6443 --token <sometoken>
 And login to master node and execute the command 
 """kubectl get nodes"""
 
 
 kubeadm join 172.31.12.255:6443 --token m17c2l.1vvgs8qrk4hdul4s \
         --discovery-token-ca-cert-hash sha256:67943adbc1b99b0e1b4eac697e856309343ea94be3a7024f62713b9eba59c199
+
+curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+
 
 
 

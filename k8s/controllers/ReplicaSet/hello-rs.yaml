@@ -6,7 +6,7 @@ metadata:
   labels:
     app: httpd
 spec:
-  minReadySeconds: 1
+  minReadySeconds: 10
   replicas: 2
   selector:
     matchLabels:
