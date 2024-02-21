@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: hrtproject-deployment
+  labels:
+    app: hrtproject 
+spec:
+  minReadySeconds: 20
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: hrtproject
+      environment: production
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: hrtproject
+        environment: production
+    spec:
+      containers:
+        - name: hrtproject
+          image: hr143heart/k8sprojectnew
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP

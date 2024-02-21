@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hrtproject-svc
+spec:
+  selector:
+    app: hrtprojec
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 80
+      nodePort: 31200 
