@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('SCM'){
             steps {
-                git branch: 'main', url: 'https://github.com/Hrudaya-github/jenkins-project.git'
+                git branch: 'main', url: 'https://github.com/Hrudaya-github/mega-project.git'
             }
         }
-        stage('Unit Testing'){
+         stage('Unit Testing'){
             steps {
                 sh 'mvn test'
             }
         }
         stage('Integration Testing'){
             steps {
-                sh 'mvn verify -DskipUnitTests'
+                sh 'mvn verify -DskipUnitTests' 
             }
         }
         stage('Maven Build'){
@@ -21,41 +21,43 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Build & Sonarqube Analysis'){
-            steps {
-                withSonarQubeEnv('sonar-server'){
-                  sh script: 'mvn clean package sonar:sonar'
-                }
-            }                
-        }
-        stage('Quality Gate'){
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                  waitForQualityGate abortPipeline: true, credentialsId:'sonar-jenkins-auth'
+        stage('Code Quality Analysis & Package'){
+            steps{
+                script{
+                   withSonarQubeEnv(credentialsId: 'sonar-api') {
+                   sh 'mvn clean package sonar:sonar' 
+                   } 
                 }
             }
-        }    
+        }
+        stage('Quality Gate Status'){
+            steps{
+                script{
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+                }
+            }
+        } 
         stage('upload artifact in nexus'){
             steps {
-                script {
+                script { 
                     def readPomVersion = readMavenPom file: 'pom.xml'
-                    def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "nexus-app-snapshot" : "nexus-app-release"
+                    def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release" 
                     nexusArtifactUploader artifacts: 
                     [
                         [
-                            artifactId: 'springboot', 
+                            artifactId: 'springboot',
                             classifier: '', 
-                            file: 'target/Uber.jar',
-                             type: 'jar'
+                            file: 'target/Uber.jar', 
+                            type: '.jar'
                         ]
-                    ],
-                    credentialsId: 'nexus-auth',
-                    groupId: 'com.example',
-                    nexusUrl: '44.242.165.161:8081',
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    repository: nexusRepo,
-                    version: "${readPomVersion.version}"
+                    ], 
+                        credentialsId: 'nexus-authorized', 
+                        groupId: 'com.example', 
+                        nexusUrl: '52.3.245.223:8081', 
+                        nexusVersion: 'nexus3', 
+                        protocol: 'http', 
+                        repository: 'nexusRepo', 
+                        version: "${readPomVersion.version}"
                 }
             }    
         }        

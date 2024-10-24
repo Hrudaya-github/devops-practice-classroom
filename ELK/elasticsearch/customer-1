@@ -1,0 +1,8 @@
+PUT /customer/_doc/1
+{
+    "name": "Ram, Shyam",
+    "Emp.Id": "SFI1002",
+    "Designation": "Plastic",
+    "Income": "500000",
+
+}
