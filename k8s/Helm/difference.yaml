@@ -1,0 +1,28 @@
+## Difference between Kubernetes Deployment file && Helm Deployment file
+
+## Kubernetes Deployment file
+---
+apiversion: apps/v1
+Kind: Deployment
+metadata:
+  name: Release-name-springboot
+Spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: kubernetes.in  
+      name: springboot  
+
+## Helm Deployment file
+---
+apiVersion: apps/v1
+Kind: Deployment
+metadata:
+  name: Release-name-springboot
+spec:
+  replicas: {{. Values. replicaCount }}
+  selector:
+    matchLabels:
+      app: Kubernetes.io 
+      name: Springboot
+    
